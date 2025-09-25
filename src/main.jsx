@@ -9,6 +9,10 @@ import {
 } from "react-router-dom";
 import Home_Layout from "./layout/Home_Layout.jsx";
 import Category_News from "./pages/Category_News.jsx";
+import Authlayout from "./layout/Authlayout.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
+import AuthProvider from "./provider/AuthProvider.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,10 +35,26 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "auth",
+    element: <Authlayout></Authlayout>,
+    children: [
+      {
+        path: "/auth/login",
+        element: <Login></Login>,
+      },
+      {
+        path: "/auth/register",
+        element: <Register></Register>,
+      },
+    ],
+  },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <AuthProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </AuthProvider>
   </StrictMode>
 );
