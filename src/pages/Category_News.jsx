@@ -4,7 +4,7 @@ import NewsCard from "../components/layout-components/NewsCard";
 
 const Category_News = () => {
   const news = useLoaderData();
-  console.log(news.data);
+
   return (
     <div>
       <h2 className="text-xl font-semibold text-left mb-4 bg-gray-300 p-3 rounded-md">

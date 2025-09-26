@@ -17,7 +17,6 @@ const Register = () => {
     const email = form.get("email");
     const password = form.get("password");
 
-    console.log({ name, url, email, password });
     createNewUser(email, password)
       .then((result) => {
         const user = result.user;
@@ -25,18 +24,16 @@ const Register = () => {
         updateUserProfile({
           displayName: name,
           photoURL: url,
-        })
-          .then(() => {
-            navigate("/");
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        }).then(() => {
+          navigate("/");
+        });
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        // Show it in the UI
+        alert(`Error: ${errorMessage}`);
+        alert(`Error: ${errorCode}`);
       });
   };
   return (
