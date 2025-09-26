@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <div className="flex items-center justify-between bg-gray-300 p-3 rounded-md">
       <div className="space-x-5 text-xl font-semibold text-gray-600 ">
-        <h1>Hello {user && user.email}</h1>
+        <h1>Hello {user && user.displayName}</h1>
       </div>
       <div className="space-x-5 text-xl font-semibold text-gray-600 ">
         <Link to="/">Home</Link>
@@ -17,7 +17,14 @@ const Navbar = () => {
         <Link>About</Link>
       </div>
       <div className="flex gap-2.5 items-center">
-        <img className="rounded-full" src={userIcon} alt="" />
+        {user && user?.email ? (
+          <img
+            src={user?.photoURL}
+            className="rounded-full w-10 h-10 object-cover"
+          />
+        ) : (
+          <img className="rounded-full" src={userIcon} alt="" />
+        )}
 
         {user && user?.email ? (
           <button

@@ -13,6 +13,8 @@ import Authlayout from "./layout/Authlayout.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import AuthProvider from "./provider/AuthProvider.jsx";
+import NewsDetails from "./pages/NewsDetails.jsx";
+import PrivateRoute from "./components/routes/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,20 @@ const router = createBrowserRouter([
         },
       },
     ],
+  },
+  {
+    path: "/news/:id",
+    element: (
+      <PrivateRoute>
+        <NewsDetails></NewsDetails>
+      </PrivateRoute>
+    ),
+    loader: async ({ params }) => {
+      const res = await fetch(
+        `https://openapi.programming-hero.com/api/news/${params.id}`
+      );
+      return res.json();
+    },
   },
   {
     path: "auth",

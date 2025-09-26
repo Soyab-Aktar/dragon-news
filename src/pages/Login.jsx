@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 const Login = () => {
   const { loginUser, setUser } = useContext(AuthContext);
+  const [error, setError] = useState({});
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,8 +20,8 @@ const Login = () => {
         setUser(user);
         navigate("/");
       })
-      .catch((error) => {
-        alert(error.code);
+      .catch((err) => {
+        setError({ ...error, login: err.code });
       });
   };
   return (
@@ -50,6 +51,12 @@ const Login = () => {
               placeholder="Password"
             />
           </div>
+
+          {error.login && (
+            <div className="flex justify-end text-red-500 font-semibold">
+              <span>{error.login}</span>
+            </div>
+          )}
 
           <div className="flex justify-end">
             <a className="link link-hover text-gray-500 font-bold">

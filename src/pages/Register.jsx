@@ -1,14 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 const Register = () => {
-  const { createNewUser, setUser } = useContext(AuthContext);
+  const { createNewUser, setUser, updateUserProfile } = useContext(AuthContext);
+  const [error, setError] = useState({});
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
     const name = form.get("name");
+    if (name.length < 3) {
+      setError({ ...error, name: "Must be more than 3 charectors" });
+    }
     const url = form.get("url");
     const email = form.get("email");
     const password = form.get("password");
@@ -18,7 +22,16 @@ const Register = () => {
       .then((result) => {
         const user = result.user;
         setUser(user);
-        navigate("/");
+        updateUserProfile({
+          displayName: name,
+          photoURL: url,
+        })
+          .then(() => {
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -39,7 +52,13 @@ const Register = () => {
               className="w-full p-3 text-lg rounded-md bg-gray-200 border-1 border-gray-500 focus:outline-none focus:ring-2 focus:ring-neutral-500"
               placeholder="Name"
             />
+            {error.name && (
+              <span className="text-sm font-semibold text-red-500">
+                {error.name}
+              </span>
+            )}
           </div>
+
           <div>
             <label className="flex justify-left text-gray-500 mb-1">
               Photo
